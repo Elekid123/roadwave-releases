@@ -31,7 +31,7 @@ While you are in The Road or in a Private Road with location enabled, the app re
 Location sharing stops the moment you leave the channel. There is no background tracking when you are not in a call. The Road cannot be used without sharing your position: that is what the feature is.
 
 ### Voice
-When your microphone is on, your voice is streamed live to the other drivers in your channel through LiveKit (see below). Roadwave does not record, store or transcribe voice, and has no access to it after it has been delivered. The microphone closes itself after 45 seconds of silence or 10 minutes of continuous use, and a bar across the screen shows whenever it is open.
+When your microphone is on, your voice is streamed live to the other drivers in your channel through LiveKit (see below). Roadwave does not record, store or transcribe voice, and has no access to it after it has been delivered. The microphone stays off until you turn it on, stays on until you turn it off, and a bar across the screen shows whenever it is open.
 
 ### Vehicle choice
 The car you pick in the Garage is sent to other drivers so they see the right car on the map. It is stored on your phone.
