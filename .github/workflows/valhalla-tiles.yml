@@ -1,0 +1,99 @@
+# Builds the Sweden routing graph for Roadwave's Valhalla service (T-60).
+#
+# This is the active copy. The reviewed source lives in the private Roadwave
+# repo at tools/valhalla/build-tiles.yml, alongside a README covering the
+# Railway side; keep the two in step. It runs here rather than there because a
+# public repo gets free unlimited runner minutes and a bigger runner, and
+# because the release asset it publishes has to be fetchable by the routing
+# service without a token.
+#
+# It publishes only OpenStreetMap-derived data. No Roadwave source is exposed,
+# exactly as this repo already publishes only built APKs.
+#
+# Why a CI runner rather than Railway or a dev PC:
+#   - Railway: the build writes its intermediates into the same directory as
+#     the finished tiles, which on Railway is the mounted volume. Peak use is
+#     ~6-8 GB against Hobby's hard 5 GB cap, so it would die part-way and the
+#     restart policy would re-download the 776 MB extract up to ten times.
+#   - The dev PC: no admin rights, so no Docker.
+# A runner has ~21 GB free (more after the cleanup step), 16 GB of RAM and a
+# six-hour job limit, against a build that wants ~8 GB and ~20 minutes.
+
+name: Valhalla tiles (Sweden)
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly. OSM changes constantly; a month-old graph starts missing new
+    # roads and, worse, keeps routing down ones that closed.
+    - cron: '0 3 * * 1'
+
+permissions:
+  contents: write # to publish the release asset
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Reclaim runner disk
+        # The runner ships with Android SDKs, .NET and GHC preinstalled, which
+        # is most of the disk. The build needs the space more than they do.
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          swap-storage: false
+
+      - name: Build the tiles
+        # The official image; ghcr.io/nilsnolde/docker-valhalla is archived.
+        # serve_tiles=False makes this a build job that exits rather than a
+        # server that waits. server_threads is capped because max_cache_size
+        # is a per-thread gigabyte and the runner has 16.
+        run: |
+          mkdir -p custom_files
+          docker run --rm \
+            -v "$PWD/custom_files:/custom_files" \
+            -e tile_urls=https://download.geofabrik.de/europe/sweden-latest.osm.pbf \
+            -e serve_tiles=False \
+            -e build_tar=True \
+            -e build_admins=True \
+            -e build_time_zones=True \
+            -e force_rebuild=True \
+            -e server_threads=4 \
+            ghcr.io/valhalla/valhalla-scripted:latest
+          ls -lh custom_files
+
+      - name: Package
+        # The extract itself is 776 MB and is not needed at run time — only
+        # the graph, the two sqlite databases and the config are.
+        run: |
+          rm -f custom_files/*.osm.pbf
+          rm -rf custom_files/valhalla_tiles
+          tar czf sweden-valhalla.tar.gz -C custom_files .
+          ls -lh sweden-valhalla.tar.gz
+          # A release asset is capped at 2 GiB. Sweden should land near 1 GB;
+          # fail loudly here rather than at upload time if it ever does not.
+          size=$(stat -c%s sweden-valhalla.tar.gz)
+          if [ "$size" -gt 2000000000 ]; then
+            echo "::error::tarball is ${size} bytes — over the 2 GiB release asset limit"
+            exit 1
+          fi
+
+      - name: Publish
+        uses: softprops/action-gh-release@v2
+        with:
+          # A moving tag: the Railway service fetches
+          # /releases/download/valhalla-sweden/sweden-valhalla.tar.gz and does
+          # not need to know which build it is getting.
+          tag_name: valhalla-sweden
+          name: Valhalla tiles — Sweden
+          body: |
+            OpenStreetMap routing graph for Sweden, built for Roadwave's
+            navigation service. Rebuilt weekly from the Geofabrik extract.
+
+            Contains OpenStreetMap data, © OpenStreetMap contributors, ODbL.
+          files: sweden-valhalla.tar.gz
