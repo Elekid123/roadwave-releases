@@ -48,16 +48,29 @@ jobs:
           large-packages: false
           swap-storage: false
 
+      - name: Download the extract
+        # Fetched here rather than by the container (which is what `tile_urls`
+        # would do) so the retry flags are ours. Geofabrik timed out mid-file
+        # on 2026-08-26 and took the whole build down with it; this is an
+        # unattended weekly job, so one flaky download must not be fatal.
+        # The image picks up any .pbf sitting in /custom_files by itself.
+        run: |
+          mkdir -p custom_files
+          curl -fL \
+            --retry 5 --retry-delay 30 --retry-all-errors \
+            --connect-timeout 30 --speed-limit 10240 --speed-time 120 \
+            -o custom_files/sweden-latest.osm.pbf \
+            https://download.geofabrik.de/europe/sweden-latest.osm.pbf
+          ls -lh custom_files/sweden-latest.osm.pbf
+
       - name: Build the tiles
         # The official image; ghcr.io/nilsnolde/docker-valhalla is archived.
         # serve_tiles=False makes this a build job that exits rather than a
         # server that waits. server_threads is capped because max_cache_size
         # is a per-thread gigabyte and the runner has 16.
         run: |
-          mkdir -p custom_files
           docker run --rm \
             -v "$PWD/custom_files:/custom_files" \
-            -e tile_urls=https://download.geofabrik.de/europe/sweden-latest.osm.pbf \
             -e serve_tiles=False \
             -e build_tar=True \
             -e build_admins=True \
