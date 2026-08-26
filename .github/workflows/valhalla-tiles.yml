@@ -68,18 +68,34 @@ jobs:
           ls -lh custom_files
 
       - name: Package
-        # The extract itself is 776 MB and is not needed at run time — only
-        # the graph, the two sqlite databases and the config are.
+        # Inside a container, as root, because that is who owns the output.
+        # The build writes everything into the mounted volume as root:root,
+        # and the runner user (uid 1001) then cannot delete or read it - the
+        # first run of this workflow died here with a screen of
+        # "Permission denied" on every .gph file.
+        #
+        # What is dropped: the 777 MB extract, which is only build input, and
+        # the loose tile tree, which is the same 1922 tiles the tar already
+        # holds. What is kept: valhalla_tiles.tar (~842 MB), the admin and
+        # timezone databases, the speeds table and the config.
         run: |
-          rm -f custom_files/*.osm.pbf
-          rm -rf custom_files/valhalla_tiles
-          tar czf sweden-valhalla.tar.gz -C custom_files .
-          ls -lh sweden-valhalla.tar.gz
-          # A release asset is capped at 2 GiB. Sweden should land near 1 GB;
-          # fail loudly here rather than at upload time if it ever does not.
-          size=$(stat -c%s sweden-valhalla.tar.gz)
+          mkdir -p out
+          docker run --rm \
+            -v "$PWD/custom_files:/custom_files" \
+            -v "$PWD/out:/out" \
+            debian:stable-slim sh -c '
+              set -eu
+              rm -f /custom_files/*.osm.pbf
+              rm -rf /custom_files/valhalla_tiles
+              tar czf /out/sweden-valhalla.tar.gz -C /custom_files .
+              chmod 0644 /out/sweden-valhalla.tar.gz
+            '
+          ls -lh out
+          # A release asset is capped at 2 GiB. Sweden lands near 1 GB; fail
+          # loudly here rather than at upload time if it ever does not.
+          size=$(stat -c%s out/sweden-valhalla.tar.gz)
           if [ "$size" -gt 2000000000 ]; then
-            echo "::error::tarball is ${size} bytes — over the 2 GiB release asset limit"
+            echo "::error::tarball is ${size} bytes - over the 2 GiB release asset limit"
             exit 1
           fi
 
@@ -90,10 +106,10 @@ jobs:
           # /releases/download/valhalla-sweden/sweden-valhalla.tar.gz and does
           # not need to know which build it is getting.
           tag_name: valhalla-sweden
-          name: Valhalla tiles — Sweden
+          name: Valhalla tiles - Sweden
           body: |
             OpenStreetMap routing graph for Sweden, built for Roadwave's
             navigation service. Rebuilt weekly from the Geofabrik extract.
 
-            Contains OpenStreetMap data, © OpenStreetMap contributors, ODbL.
-          files: sweden-valhalla.tar.gz
+            Contains OpenStreetMap data, (c) OpenStreetMap contributors, ODbL.
+          files: out/sweden-valhalla.tar.gz
