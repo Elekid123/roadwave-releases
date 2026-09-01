@@ -1,6 +1,6 @@
 # Roadwave Privacy Policy
 
-**Effective date:** 23 August 2026 (beta)
+**Effective date:** 1 September 2026 (beta)
 **Who is responsible:** Felix Tornberg, Sweden, the developer of Roadwave (the "data controller" under the GDPR)
 **Contact:** roadwaveSupport@gmail.com
 
@@ -11,7 +11,9 @@ Roadwave is a voice chat app for people who are driving. It lets you talk to fri
 - Roadwave has no accounts. You are identified by a random ID that the app makes up on your phone and a username you choose.
 - While you are in a channel, your position is sent every 3 seconds to the Roadwave server and to the other drivers in that channel. When you leave, it stops.
 - Your voice is streamed live to the other drivers in the channel. Roadwave does not record it.
-- Nothing is sold, there are no ads, and there is no advertising or analytics tracking in the app.
+- If you navigate somewhere, the route is worked out on a Roadwave server and your destination is never written to any log. Searching for a place by name sends that text, via the Roadwave server, to Mapbox's place search, and nothing else about you.
+- The map itself comes from Mapbox, which also collects anonymised usage statistics about the map unless you switch that off in the ⓘ menu on the map.
+- Nothing is sold, there are no ads, and there is no advertising tracking in the app.
 - Write to roadwaveSupport@gmail.com to ask what we hold about you or to have it deleted.
 
 ## What the app collects and why
@@ -30,6 +32,17 @@ While you are in The Road or in a Private Road with location enabled, the app re
 
 Location sharing stops the moment you leave the channel. There is no background tracking when you are not in a call. The Road cannot be used without sharing your position: that is what the feature is.
 
+### Where you are going (navigation)
+If you use navigation, the app sends the Roadwave server your current position and the destination you chose, and gets back a route. The route is calculated on a Roadwave-operated server; it is not sent to any mapping company.
+
+Your destination is **never written to the server's log**, at any precision. This is stricter than the rule for ordinary positions above, because a destination says where you will be later rather than where you are now. The log records only the length of the route in whole kilometres and how many turns it has.
+
+When you search for a place by name, the text you type is sent to the Roadwave server and forwarded to **Mapbox's search service**, together with a position the server first rounds to about a kilometre so that results near you come first. Mapbox receives nothing else from that request: no device ID, no username, no route, and never the destination you go on to pick. The search text is not logged by the Roadwave server.
+
+The last few places you navigated to are stored **on your phone only** and are never sent anywhere. Deleting the app deletes them.
+
+You can send your route to another driver in your channel. What is sent is the destination and any stops, by name and position, directly to that one driver through the voice service — not through the Roadwave server, and never your current position beyond what the channel already shares. They see who it is from and choose whether to follow it. If you change the route afterwards, the update goes to the same drivers. Nothing is sent to anyone you have blocked, or who has blocked you.
+
 ### Voice
 When your microphone is on, your voice is streamed live to the other drivers in your channel through LiveKit (see below). Roadwave does not record, store or transcribe voice, and has no access to it after it has been delivered. The microphone stays off until you turn it on, stays on until you turn it off, and a bar across the screen shows whenever it is open.
 
@@ -47,7 +60,7 @@ The Roadwave server writes a security log: one line per request type such as a s
 
 ## What the app does not collect
 
-No contacts, no photos, no camera, no microphone use outside a channel, no background location, no advertising identifiers, no analytics or crash-reporting services, no payment details. The app does not read anything else on your phone.
+No contacts, no photos, no camera, no microphone use outside a channel, no background location, no advertising identifiers, no crash-reporting services, no payment details. The one usage-statistics collection in the app is Mapbox's map telemetry, described below, which you can turn off. The app does not read anything else on your phone.
 
 ## Who else handles your data
 
@@ -58,7 +71,9 @@ Roadwave runs on a small number of third-party services. Each sees only what it 
 | **LiveKit Cloud** (LiveKit, Inc., USA) | Your voice stream, your position messages, your username, your IP address | It is the voice service. Audio and position messages pass through its servers to the other drivers; it does not keep them. |
 | **Railway** (Railway Corp., USA) | Everything the Roadwave server receives, including the security log | It hosts the Roadwave server. |
 | **Google** (Gmail) | The contents of reports | Reports are delivered to the support inbox by email. |
-| **OpenFreeMap** and **OpenStreetMap** | Requests for map tiles, which reveal roughly where your map is centred, and your IP address | They serve the map and the road data used to place cars on roads. Requests are only ever made around your own position, never around other drivers'. |
+| **Mapbox** (Mapbox, Inc., USA) | Requests for map tiles and 3D buildings, which reveal roughly where your map is centred, and your IP address. Also, unless you turn it off, anonymised map-usage telemetry that can include your location while the map is open. | It draws the map. Mapbox's software collects telemetry by default to improve its maps; the ⓘ button on the map opens Mapbox's own menu where you can switch this off, and that choice is kept on your phone. Roadwave itself never receives that telemetry. |
+| **Mapbox** search (same company) | The text you type when searching for a place, and a position rounded to about 1 km by the Roadwave server | It turns a place name into coordinates. It never receives your device ID, your username, your route, or the destination you choose. |
+| **OpenFreeMap** and **OpenStreetMap** | Requests for road-data tiles, which reveal roughly where you are, and your IP address | They provide the road centrelines used to place cars on roads. Requests are only ever made around your own position, never around other drivers'. |
 | **Apple** (TestFlight) and **Google** (Play, if used) | Your installation of the app | App distribution and crash reports under their own privacy policies. |
 
 Some of these providers are in the United States. Where personal data leaves the EU/EEA it does so under the providers' standard contractual clauses.
