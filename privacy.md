@@ -1,6 +1,6 @@
 # Roadwave Privacy Policy
 
-**Effective date:** 11 September 2026 (beta)
+**Effective date:** 14 September 2026 (beta)
 **Who is responsible:** Felix Tornberg, Sweden, the developer of Roadwave (the "data controller" under the GDPR)
 **Contact:** roadwaveSupport@gmail.com
 
@@ -14,6 +14,7 @@ Roadwave is a voice chat app for people who are driving. It lets you talk to fri
 - If you have accepted The Road's disclosure, connecting the app to CarPlay joins The Road for you, which starts sharing your position with nearby drivers as described below. Leaving the channel, from the car or the phone, stops it until the next time the car connects.
 - Your voice is streamed live to the other drivers in the channel. Roadwave does not record it.
 - If you navigate somewhere, the route is worked out on a Roadwave server and your destination is never written to any log. Searching for a place by name sends that text, via the Roadwave server, to Mapbox's place search, and nothing else about you.
+- While the driving screen is open and you are moving, the app asks the Roadwave server for the speed limit of the road you are on, sending the last few seconds of your position. Nothing about that lookup is stored or logged. Fixed speed camera positions come from Trafikverket's open data; nothing about you goes to Trafikverket.
 - The map, on the phone and on the CarPlay screen, is drawn by Mapbox, which also collects anonymised usage statistics unless you switch that off in the ⓘ menu on the map.
 - Nothing is sold, there are no ads, and there is no advertising tracking in the app.
 - Write to roadwaveSupport@gmail.com to ask what we hold about you or to have it deleted.
@@ -95,6 +96,7 @@ Roadwave does not sell your data and does not share it with anyone else.
 | Session token | Your phone and the server | 30 days, then renewed |
 | Your latest position | Server memory | Up to 24 hours, cleared on every restart |
 | Voice and position messages | In transit only | Not stored |
+| Your last few seconds of position, for the speed limit | In transit only | Not stored, not logged |
 | Private Roads you are in | Server database | Until you leave the road, or nobody uses it for 90 days |
 | Hazards you report | Server database | Between 20 minutes and 24 hours depending on the kind, then swept |
 | Security log | Hosting provider | Up to 30 days |
@@ -114,6 +116,17 @@ road, leaving deletes the road itself.
 it. **The reporting device is never sent to any other driver** — it is there so
 the same phone cannot report the same thing repeatedly or vote on it twice, and
 it goes when the hazard is swept.
+
+**Speed limit.** While the driving screen or CarPlay is open and the car is
+moving, the app sends the Roadwave server the last few seconds of your position
+(two to eight points), roughly every five seconds, to look up the speed limit of
+the road you are on. The server passes them to its own routing service, which
+is operated by Roadwave, answers with the limit, and keeps nothing: the lookup
+is not stored and not written to the security log.
+
+**Fixed speed cameras.** The positions of Sweden's fixed speed cameras come from
+Trafikverket's open data, which the server fetches once a day. Nothing about you
+is sent to Trafikverket.
 
 ## Your rights
 
