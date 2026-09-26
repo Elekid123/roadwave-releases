@@ -1,6 +1,6 @@
 # Roadwave Privacy Policy
 
-**Effective date:** 24 September 2026 (beta)
+**Effective date:** 26 September 2026 (beta)
 **Who is responsible:** Felix Tornberg, Sweden, the developer of Roadwave (the "data controller" under the GDPR)
 **Contact:** roadwaveSupport@gmail.com
 
@@ -31,7 +31,7 @@ The name you choose on first open (changeable in Settings). Other drivers see it
 While you are in The Road or in a Private Road with location enabled, the app reads your GPS position about once a second and, every 3 seconds, sends your latitude, longitude, direction of travel and speed:
 
 - **to the Roadwave server**, which uses it to place you in a road cell (an area roughly 4 km across) and to check that your movement is physically plausible. The server keeps only your most recent position, in memory, for up to 24 hours, and forgets it on every restart. It also remembers which road cell you are in, and which Private Road you have open, for about 90 seconds, so that it can tell another driver's phone whether anybody is there before that phone connects to the voice service. That answer is only yes or no; it never says who, or where. Leaving The Road clears it at once.
-- **to the other drivers in your channel**, directly through the voice service, so their app can draw your car on their map and adjust your volume by distance. On The Road those drivers are strangers within a few kilometres of you. Blocked drivers do not receive your position.
+- **to the other drivers in your channel**, directly through the voice service, so their app can draw your car on their map and adjust your volume by distance. On The Road those drivers are strangers within a few kilometres of you. Blocked drivers do not receive your position. When voice is paused, or in the moment before your phone connects to them, your position reaches the same drivers through the Roadwave server instead: it passes the position on, keeps only the latest one in memory for about 15 seconds, and sends it to nobody who has blocked you or whom you have blocked.
 
 Location sharing with other drivers stops when you leave the channel. Navigation and the connected CarPlay map can continue using location, including while the phone is locked or another app is open. To stop that use outside a channel, end navigation and disconnect CarPlay. The Road cannot be used without sharing your position: that is what the feature is.
 
