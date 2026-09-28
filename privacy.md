@@ -1,6 +1,6 @@
 # Roadwave Privacy Policy
 
-**Effective date:** 26 September 2026 (beta)
+**Effective date:** 28 September 2026 (beta)
 **Who is responsible:** Felix Tornberg, Sweden, the developer of Roadwave (the "data controller" under the GDPR)
 **Contact:** roadwaveSupport@gmail.com
 
@@ -13,7 +13,7 @@ Roadwave is a voice chat app for people who are driving. It lets you talk to fri
 - Navigation and the CarPlay map can also use your location without a voice channel. This does not share your position with other drivers.
 - If you have accepted The Road's disclosure, connecting the app to CarPlay joins The Road for you, which starts sharing your position with nearby drivers as described below. Leaving the channel, from the car or the phone, stops it until the next time the car connects.
 - Your voice is streamed live to the other drivers in the channel. Roadwave does not record it.
-- If you navigate somewhere, the route is worked out on a Roadwave server and your destination is never written to any log. Searching for a place by name sends that text, via the Roadwave server, to Mapbox's place search, and nothing else about you.
+- If you navigate somewhere, the route is worked out on a Roadwave server and your destination is never written to any log. Searching for a place by name sends that text, via the Roadwave server, to Mapbox's place search, and nothing else about you. Searching for a kind of place (fuel, food, car parks and so on) sends the kind the same way; along your route it also sends a simplified outline of the road ahead, and "Park nearby" sends a point near your destination, only when you tap it.
 - While the driving screen is open and you are moving, the app asks the Roadwave server for the speed limit of the road you are on, sending the last few seconds of your position. Nothing about that lookup is stored or logged. Fixed speed camera positions come from Trafikverket's open data; nothing about you goes to Trafikverket.
 - The map, on the phone and on the CarPlay screen, is drawn by Mapbox, which also collects anonymised usage statistics unless you switch that off in the ⓘ menu on the map.
 - Nothing is sold, there are no ads, and there is no advertising tracking in the app.
@@ -45,6 +45,8 @@ The phone and CarPlay share the same navigation session. Leaving a voice channel
 Your destination is **never written to the server's log**, at any precision. This is stricter than the rule for ordinary positions above, because a destination says where you will be later rather than where you are now. The log records only the length of the route in whole kilometres and how many turns it has.
 
 When you search for a place by name, the text you type is sent to the Roadwave server and forwarded to **Mapbox's search service**, together with a position the server first rounds to about a kilometre so that results near you come first. Mapbox receives nothing else from that request: no device ID, no username, no route, and never the destination you go on to pick. The search text is not logged by the Roadwave server.
+
+Searching for a kind of place — fuel, charging, food, coffee, car parks, groceries, rest areas or hotels — works the same way: the kind of place and the rounded position go through the Roadwave server to Mapbox. Two searches send more, and only when you ask for them. Searching **along your route** (when adding a stop) sends a simplified outline of roughly the next 50 km of your route, rounded to about 100 m, so that Mapbox can find places on the way. **Park nearby**, a button beside Start in the route preview, sends a point within about 100 m of your destination so that Mapbox can find the car parks around it; nothing is sent unless you tap it. In every case Mapbox receives the request from the Roadwave server, never from your phone, with no device ID and no username, and the Roadwave server logs only how many places came back — not what kind you asked for and no position.
 
 The last few places you navigated to are stored **on your phone only** and are never sent anywhere. Deleting the app deletes them.
 
@@ -79,7 +81,7 @@ Roadwave runs on a small number of third-party services. Each sees only what it 
 | **Railway** (Railway Corp., USA) | Everything the Roadwave server receives, including the security log | It hosts the Roadwave server. |
 | **Google** (Gmail) | The contents of reports | Reports are delivered to the support inbox by email. |
 | **Mapbox** (Mapbox, Inc., USA) | Requests for map tiles and 3D buildings, which reveal roughly where your map is centred, and your IP address. Also, unless you turn it off, anonymised map-usage telemetry that can include your location while the map is open. | It draws the map on the phone, on the CarPlay screen and in the CarPlay Dashboard. Mapbox's software collects telemetry by default to improve its maps; the ⓘ button on the map opens Mapbox's own menu where you can switch this off, and that choice is kept on your phone. Roadwave itself never receives that telemetry. |
-| **Mapbox** search (same company) | The text you type when searching for a place, and a position rounded to about 1 km by the Roadwave server | It turns a place name into coordinates. It never receives your device ID, your username, your route, or the destination you choose. |
+| **Mapbox** search (same company) | The text you type when searching for a place, or the kind of place you search for, and a position rounded to about 1 km by the Roadwave server. When you ask for them: a simplified outline of the road ahead (searching along your route) or a point near your destination (Park nearby), rounded to about 100 m. | It turns a place name into coordinates and finds places of a kind. It never receives your device ID or your username, and it receives requests from the Roadwave server, never from your phone. |
 | **Apple** (CarPlay) | The turn instructions, distances, search text and channel names shown on the car screen pass through Apple's CarPlay framework on your phone. Roadwave sends nothing to Apple's servers for this. Only if the Mapbox map cannot be loaded does the car screen fall back to Apple's MapKit map, which then requests map tiles from Apple under Apple's Maps privacy terms. | It is how any app appears on a car's screen. |
 | **OpenFreeMap** and **OpenStreetMap** | Requests for road-data tiles, which reveal roughly where you are, and your IP address | They provide the road centrelines used to place cars on roads. Requests are only ever made around your own position, never around other drivers'. |
 | **Apple** (TestFlight) and **Google** (Play, if used) | Your installation of the app | App distribution and crash reports under their own privacy policies. |
