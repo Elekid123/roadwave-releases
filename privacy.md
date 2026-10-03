@@ -1,6 +1,6 @@
 # Roadwave Privacy Policy
 
-**Effective date:** 28 September 2026 (beta)
+**Effective date:** 3 October 2026 (beta)
 **Who is responsible:** Felix Tornberg, Sweden, the developer of Roadwave (the "data controller" under the GDPR)
 **Contact:** roadwaveSupport@gmail.com
 
@@ -48,9 +48,9 @@ When you search for a place by name, the text you type is sent to the Roadwave s
 
 Searching for a kind of place — fuel, charging, food, coffee, car parks, groceries, rest areas or hotels — works the same way: the kind of place and the rounded position go through the Roadwave server to Mapbox. Two searches send more, and only when you ask for them. Searching **along your route** (when adding a stop) sends a simplified outline of roughly the next 50 km of your route, rounded to about 100 m, so that Mapbox can find places on the way. **Park nearby**, a button beside Start in the route preview, sends a point within about 100 m of your destination so that Mapbox can find the car parks around it; nothing is sent unless you tap it. In every case Mapbox receives the request from the Roadwave server, never from your phone, with no device ID and no username, and the Roadwave server logs only how many places came back — not what kind you asked for and no position.
 
-The last few places you navigated to are stored **on your phone only** and are never sent anywhere. Deleting the app deletes them.
+The last few places you navigated to, and the places you save yourself (Home, Work and any you name), are stored **on your phone** and are never sent to Roadwave's server or to anyone else; your phone's own backup (iCloud on an iPhone) may include them along with the app's other settings. Saying or typing "hem" or a saved name finds the place on your phone without any search being sent. You can clear the recent places, and change or remove saved ones, in Settings → Saved places. Deleting the app deletes them.
 
-You can send your route to another driver in your channel. What is sent is the destination and any stops, by name and position, directly to that one driver through the voice service — not through the Roadwave server, and never your current position beyond what the channel already shares. They see who it is from and choose whether to follow it. If you change the route afterwards, the update goes to the same drivers. Nothing is sent to anyone you have blocked, or who has blocked you.
+You can send your route to another driver in your channel. What is sent is the destination and any stops, by name and position, directly to that one driver through the voice service (a saved place goes as its address, never as "Home" or the name you gave it) — not through the Roadwave server, and never your current position beyond what the channel already shares. They see who it is from and choose whether to follow it. If you change the route afterwards, the update goes to the same drivers. Nothing is sent to anyone you have blocked, or who has blocked you.
 
 ### Voice
 When your microphone is on, your voice is streamed live to the other drivers in your channel through LiveKit (see below). Roadwave does not record, store or transcribe voice, and has no access to it after it has been delivered. The microphone stays off until you turn it on, stays on until you turn it off, and a bar across the screen shows whenever it is open.
@@ -95,6 +95,7 @@ Roadwave does not sell your data and does not share it with anyone else.
 | Data | Where | For how long |
 |---|---|---|
 | Device ID, username, vehicle, blocked list, consent | Your phone | Until you uninstall the app |
+| Recent and saved places | Your phone | Until you clear or remove them, or uninstall the app |
 | Session token | Your phone and the server | 30 days, then renewed |
 | Your latest position | Server memory | Up to 24 hours, cleared on every restart |
 | Voice and position messages | In transit only | Not stored |
@@ -134,7 +135,7 @@ is sent to Trafikverket.
 
 Under the GDPR you can ask to see the personal data held about you, to have it corrected or deleted, to restrict or object to its use, and to receive it in a portable form. Write to roadwaveSupport@gmail.com. Roadwave holds very little about you that outlives a call: your memberships of the Private Roads you are in, any hazards you have reported that have not yet expired, the security log lines, and any reports that name your device ID. A deletion request comes down to those, and we will tell you what was found. You also have the right to complain to the Swedish Authority for Privacy Protection (Integritetsskyddsmyndigheten, IMY).
 
-Deleting the app from your phone removes your device ID, username, blocked list and consent record. Because there are no accounts, a fresh install is a new device that cannot get back into the roads the old one was in. The server's copies expire on their own as described above.
+Deleting the app from your phone removes your device ID, username, blocked list, consent record, and your recent and saved places. Because there are no accounts, a fresh install is a new device that cannot get back into the roads the old one was in. The server's copies expire on their own as described above.
 
 ## Children
 
